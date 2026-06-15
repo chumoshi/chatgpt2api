@@ -7,6 +7,7 @@ services:
       - ./config.json:/app/config.json
       - ./scripts:/app/scripts:ro
     environment:
+      TZ: ${TZ:-Asia/Shanghai}
       CHATGPT2API_CONFIG_FILE: /app/config.json
       CHATGPT2API_PROXY_RUNTIME_ENABLED: ${CHATGPT2API_PROXY_RUNTIME_ENABLED:-true}
       CHATGPT2API_PROXY_RUNTIME_EGRESS_MODE: ${CHATGPT2API_PROXY_RUNTIME_EGRESS_MODE:-single_proxy}
@@ -30,6 +31,7 @@ services:
     container_name: chatgpt2api-warp-proxy
     restart: unless-stopped
     environment:
+      TZ: ${TZ:-Asia/Shanghai}
       WARP_SLEEP: "2"
       # 可选：填写 Cloudflare WARP+ License Key
       # WARP_LICENSE_KEY: ${WARP_LICENSE_KEY:-}
@@ -102,6 +104,7 @@ services:
       - ./data:/app/data
       - ./config.json:/app/config.json
     environment:
+      TZ: ${TZ:-Asia/Shanghai}
       STORAGE_BACKEND: ${STORAGE_BACKEND:-json}
       DATABASE_URL: ${DATABASE_URL:-}
       CHATGPT2API_AUTH_KEY: ${CHATGPT2API_AUTH_KEY:-}
