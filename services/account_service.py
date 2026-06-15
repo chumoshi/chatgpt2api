@@ -1068,12 +1068,17 @@ class AccountService:
             return result
 
     def list_limited_tokens(self) -> list[str]:
+        now = datetime.now(timezone.utc)
         with self._lock:
             return [
                 token
                 for item in self._accounts.values()
                 if item.get("status") == "限流"
-                   and (token := item.get("access_token") or "")
+                and (token := item.get("access_token") or "")
+                and (
+                    (restore_at := self._parse_time(item.get("restore_at"))) is None
+                    or now >= restore_at
+                )
             ]
 
     def list_normal_tokens(self) -> list[str]:
